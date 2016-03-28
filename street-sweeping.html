@@ -1,0 +1,69 @@
+
+<body>
+    TODO: map all the search results to colors, those colors appear on the calendar (can then deselect to get the ones you want)
+    
+    step 1: get data from search results into the calendar (I think thats pretty simple - just
+    have the calendar div be the recipient of the collection listener) 
+    
+<div class="container" ng-app="street-sweeping">
+
+    <div ng-controller="StreetSweepingCtrl">
+        <div id="routeByAddressDiv">
+            <h3>Check sweeping by Address: </h3>
+            <form id="routeByAddress" class="address-lookup" 
+                  ng-submit="routeByAddress(str,num); str=''; num='';">
+                <input ng-model="num" type="text"
+                     name="num" placeholder="Street number" />
+                <input ng-model="str" type="text" name="street" placeholder="Street name" /> 
+               <button type="submit" class="hidden" ></button>
+            </form>
+        </div>
+        <div id="routeByBlockDiv">
+            <h3>Check sweeping by Block: </h3>
+            <form id="routeByBlock" class="block-lookup" 
+                  ng-submit="routeByBlock(block,cross1,cross2); block=''; cross1=''; cross2='';">
+                <input ng-model="block" type="text"
+                     name="block" placeholder="Block Street" />
+                <input ng-model="cross1" type="text" name="cross1" placeholder="Cross Street 1" /> 
+                <input ng-model="cross2" type="text" name="cross2" placeholder="Cross Street 2" /> 
+               <button type="submit" class="hidden" ></button>
+            </form>
+        </div>
+
+            <h2> Looking up: <span ng-bind="number"></span> <span ng-bind="street"></span> </h2>
+            <ul> 
+            <li ng-repeat="item in result">
+                <p>
+                {{item.streetname}} between {{item.from_st}} and {{item.to_st}} ({{item.cnn}})
+                <p>
+                {{item.blockside}} side, {{item.fromhour}} to {{item.tohour}}
+                    <div ng-repeat="day in days">
+                        {{item[day] === "TRUE" ? item.weekday + ' ' + day : ""}}
+                    </div>
+            </li>
+            </ul> 
+         <!--<link href="Calendar.css" rel="stylesheet" type="text/css" />-->
+        <h3> D3 Calendar</h3>
+        <div>
+            <button id="back" name="back" ></button>
+            <button id="forward" name="forward" ></button>
+            <label id="currentMonth">May 2013</label>
+        </div>  
+        <div id="chart" bar-chart="set.y" x="set.x" class="content">
+            <div ng-repeat="item in result">
+                <div ng-repeat="day in days">
+                    {{item[day] === "TRUE" ? addDate(day,item.weekday) : ""}}
+                </div>
+            </li>
+        </div>   
+    </div>
+    
+    <div>
+       
+
+        <div id="chart2">
+        </div>
+    </div>
+</div>
+
+</body>
