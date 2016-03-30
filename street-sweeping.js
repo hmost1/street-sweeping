@@ -13,8 +13,8 @@ Routes = new Mongo.Collection('SweepingRoutes');
 if (Meteor.isServer) {
   
   //allow client access to all routes 
-  Meteor.publish('SweepingRoutes', function(){
-    return Routes.find({});
+  Meteor.publish('routes', function(){
+    return Routes.find();
   });
 }
 
@@ -23,8 +23,11 @@ if (Meteor.isClient) {
 
   angular.module('street-sweeping').controller('StreetSweepingCtrl', ['$scope', '$meteor',
     function ($scope, $meteor) {
+      $scope.subscribe('routes', function(){
+        console.log("routes ready!");
+      });
+
       $scope.hi = "hi";
-      $scope.ready=false;
 
       $scope.log = function(value){
         console.log(value);
@@ -32,12 +35,6 @@ if (Meteor.isClient) {
       
       //TODO: remove this or make the transformation from the db somewhere else 
       $scope.days = ["week1ofmon","week2ofmon","week3ofmon","week4ofmon","week5ofmon"]; 
-
-      Meteor.subscribe('SweepingRoutes', function() {
-        $scope.ready = true
-      });
-
-      //$scope.$meteorSubscribe('SweepingRoutes'); /*, function(){
 
       //the D3 stuff
       $scope.set = {
@@ -355,21 +352,7 @@ if (Meteor.isClient) {
                   return false; 
                 }
              })
-             .style("fill", "green");/*function (d,i) { 
-                //get the day of week and occurence for this day 
-                var d_occurrence = Math.ceil(d[0]/7);
-                var d_of_week = i%7
-
-                //check if they match the seeping days 
-                if(day_of_week === d_of_week && d_occurrence === day_occurence){
-                    return "green";
-                }
-                return "";
-                //if it was already filled in with something, keep that. else fill with the default 
-                /*if($(this)[0].style.fill != d[1]){
-                  console.log(d[1]);
-                }*/
-              //});
+             .style("fill", "green");
     }
  
     function is_swept(d,j){
@@ -492,22 +475,17 @@ if (Meteor.isClient) {
       
    
       scope.initialize = function(results) {
-        //scope.setSvgSize();
         scope.d3 = d3function();
       };
 
       scope.initialize();
 
-      
       //TODO: need a function that takes the day of week etc. and transforms it 
       scope.$parent.addDate = scope.d3.addDate; //();
       scope.$parent.redrawCal = scope.d3.redraw; 
 
     };
 
-    //directive.addDate = function(date){console.log(date);};
-
-    //directive.scope.addDate = function(date){console.log(date);};
     return directive; 
   });
 }
