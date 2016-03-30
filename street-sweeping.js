@@ -73,9 +73,6 @@ if (Meteor.isClient) {
 
         $scope.set.x = "address";
         $scope.routeQuery = addressQuery; 
-
-        //a = $scope.routes.find($scope.getReactively('routeQuery'),{reactive: false});
-        //console.log(a);
       };
 
       //second type of query, a bit more complicated looking up by an address 
@@ -108,18 +105,9 @@ if (Meteor.isClient) {
         $scope.set.x = "block"; 
         $scope.routeQuery = blockQuery; 
       };
-      
-
-      
       $scope.result = $meteor.collection( function() {
-        //$scope.redrawCal();
         return Routes.find($scope.getReactively('routeQuery'));
       });
-      //$scope.set.y = Routes.find($scope.getReactively('routeQuery'),{reactive: false});
-      /*$scope.set.y = $meteor.collection( function() {
-        return Routes.find($scope.getReactively('routeQuery'),{reactive: false});
-      });*/
-
     } 
   ]);
   
