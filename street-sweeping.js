@@ -23,11 +23,12 @@ if (Meteor.isClient) {
 
   angular.module('street-sweeping').controller('StreetSweepingCtrl', ['$scope', '$meteor',
     function ($scope, $meteor) {
+      
       $scope.subscribe('routes', function(){
         console.log("routes ready!");
+        //TODO: maybe add in a quick findone query here, see if that helps warm up the db
+        //Routes.findOne({});
       });
-
-      $scope.hi = "hi";
 
       $scope.log = function(value){
         console.log(value);
@@ -102,9 +103,11 @@ if (Meteor.isClient) {
         $scope.set.x = "block"; 
         $scope.routeQuery = blockQuery; 
       };
+
       $scope.result = $meteor.collection( function() {
         return Routes.find($scope.getReactively('routeQuery'));
       });
+
     } 
   ]);
   
